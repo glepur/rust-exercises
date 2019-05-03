@@ -9,18 +9,30 @@ fn main() {
     let output = if input.trim() == "exit" {
       break;
     } else {
-      let number = input.trim().parse()
+      let number: i32 = input.trim().parse()
         .expect("Cannot parse string!");
-      fibonacci(number)
+      if number < 0 {
+        println!("{} is negative!", number);
+        continue;
+      } else if number == 0 {
+        println!("zero is not a right argument to fibonacci!");
+        continue;
+      }
+
+      if number == 1 {
+        1
+      } else {
+        let mut sum: isize = 0;
+        let mut last: isize = 0;
+        let mut curr: isize = 1;
+        for _i in 1..number {
+          sum = last + curr;
+          last = curr;
+          curr = sum;
+        }
+        sum
+      }
     };
     println!("Result for provided term is: {}", output);
-  }
-}
-
-fn fibonacci (number: i32) -> i32 {
-  if number == 1 {
-    number
-  } else {
-    number + fibonacci(number - 1)
   }
 }
