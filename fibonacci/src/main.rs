@@ -1,4 +1,5 @@
 use std::io;
+use std::collections::HashMap;
 
 fn main() {
   loop {
@@ -6,11 +7,16 @@ fn main() {
     let mut input = String::new();
     io::stdin().read_line(&mut input)
       .expect("Failed to read line");
-    let output = if input.trim() == "exit" {
+    if input.trim() == "exit" {
       break;
     } else {
-      let number: i32 = input.trim().parse()
-        .expect("Cannot parse string!");
+      let number: i32 = match input.trim().parse() {
+        Ok(n) => n,
+        Err(_) => {
+          println!("Cannot parse string!");
+          continue;
+        }
+      };
       if number < 0 {
         println!("{} is negative!", number);
         continue;
@@ -19,20 +25,20 @@ fn main() {
         continue;
       }
 
-      if number == 1 {
-        1
-      } else {
-        let mut sum: isize = 0;
-        let mut last: isize = 0;
-        let mut curr: isize = 1;
-        for _i in 1..number {
-          sum = last + curr;
-          last = curr;
-          curr = sum;
-        }
-        sum
-      }
+      let mut memo: HashMap<i32, isize> = HashMap::new();
+      println!("Result for provided term is: {}", fibonacci(number, &mut memo));
     };
-    println!("Result for provided term is: {}", output);
+  }
+}
+
+fn fibonacci (num: i32, memo: &mut HashMap<i32, isize>) -> isize {
+  if num <= 1 {
+    1
+  } else if memo.contains_key(&num) {
+    memo[&num]
+  } else {
+    let result = fibonacci(num - 1, memo) + fibonacci(num - 2, memo);
+    memo.insert(num, result);
+    result
   }
 }
