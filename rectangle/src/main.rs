@@ -19,7 +19,8 @@ fn main() {
   loop {
     println!("Enter width and height of rectangle separated by comma:");
     let mut input = String::new();
-    io::stdin().read_line(&mut input)
+    io::stdin()
+      .read_line(&mut input)
       .expect("Failed to read line");
     let rectangle = if input.trim() == "exit" {
       break;
@@ -35,14 +36,14 @@ fn main() {
           Err(_) => {
             error.push_str("Cannot parse width. ");
             0.0
-          },
+          }
         },
         height: match vec[1].parse() {
           Ok(num) => num,
           Err(_) => {
             error.push_str("Cannot parse height. ");
             0.0
-          },
+          }
         },
         error,
       }
@@ -50,7 +51,11 @@ fn main() {
     if rectangle.error.len() > 0 {
       println!("{}", rectangle.error)
     } else {
-      println!("Area is {:.2}, diagonal is {:.2}", rectangle.area(), rectangle.diagonal());
+      println!(
+        "Area is {:.2}, diagonal is {:.2}",
+        rectangle.area(),
+        rectangle.diagonal()
+      );
     }
   }
 }

@@ -4,7 +4,8 @@ fn main() {
   loop {
     println!("Input temperature in Fahrenheit or Celsius:");
     let mut input = String::new();
-    io::stdin().read_line(&mut input)
+    io::stdin()
+      .read_line(&mut input)
       .expect("Failed to read line");
     if input.trim() == "exit" {
       break;
@@ -21,7 +22,7 @@ fn main() {
         }
       };
       if input.trim().ends_with("°C") {
-        println!("{:.2}°F", number * 1.8 + 32.0 );
+        println!("{:.2}°F", number * 1.8 + 32.0);
       } else {
         println!("{:.2}°C", (number - 32.0) / 1.8);
       }

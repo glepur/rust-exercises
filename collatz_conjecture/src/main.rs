@@ -4,7 +4,8 @@ fn main() {
   loop {
     println!("Input a number bigger than 1:");
     let mut input = String::new();
-    io::stdin().read_line(&mut input)
+    io::stdin()
+      .read_line(&mut input)
       .expect("Failed to read line");
     if input.trim() == "exit" {
       break;
@@ -31,6 +32,9 @@ fn main() {
       }
       iterations += 1;
     }
-    println!("Collatz conjecture was resolved in {} iterations", iterations);
+    println!(
+      "Collatz conjecture was resolved in {} iterations",
+      iterations
+    );
   }
 }

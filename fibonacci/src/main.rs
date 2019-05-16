@@ -1,10 +1,11 @@
-use std::{io, collections::HashMap};
+use std::{collections::HashMap, io};
 
 fn main() {
   loop {
     println!("Input term in Fibonacci sequence:");
     let mut input = String::new();
-    io::stdin().read_line(&mut input)
+    io::stdin()
+      .read_line(&mut input)
       .expect("Failed to read line");
     if input.trim() == "exit" {
       break;
@@ -25,12 +26,15 @@ fn main() {
       }
 
       let mut memo: HashMap<i32, usize> = HashMap::new();
-      println!("Result for provided term is: {}", fibonacci(number, &mut memo));
+      println!(
+        "Result for provided term is: {}",
+        fibonacci(number, &mut memo)
+      );
     };
   }
 }
 
-fn fibonacci (num: i32, memo: &mut HashMap<i32, usize>) -> usize {
+fn fibonacci(num: i32, memo: &mut HashMap<i32, usize>) -> usize {
   if num <= 1 {
     1
   } else if memo.contains_key(&num) {

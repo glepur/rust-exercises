@@ -1,17 +1,7 @@
 fn main() {
   let number_names = [
-    "first",
-    "second",
-    "third",
-    "fourth",
-    "fifth",
-    "sixth",
-    "seventh",
-    "eighth",
-    "ninth",
-    "tenth",
-    "eleventh",
-    "twelveth",
+    "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth",
+    "eleventh", "twelveth",
   ];
   let verses = [
     "12 drummers drumming",
@@ -28,11 +18,13 @@ fn main() {
     "A partridge in a pear tree",
   ];
   for num in 0..12 {
-    println!("On the {} day of Christmas my true love sent to me", number_names[num]);
-    for verse_num in (11-num)..12 {
+    println!(
+      "On the {} day of Christmas my true love sent to me",
+      number_names[num]
+    );
+    for verse_num in (11 - num)..12 {
       println!("{}", verses[verse_num]);
     }
     println!("\n");
   }
 }
-
