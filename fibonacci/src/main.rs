@@ -24,13 +24,13 @@ fn main() {
         continue;
       }
 
-      let mut memo: HashMap<i32, isize> = HashMap::new();
+      let mut memo: HashMap<i32, usize> = HashMap::new();
       println!("Result for provided term is: {}", fibonacci(number, &mut memo));
     };
   }
 }
 
-fn fibonacci (num: i32, memo: &mut HashMap<i32, isize>) -> isize {
+fn fibonacci (num: i32, memo: &mut HashMap<i32, usize>) -> usize {
   if num <= 1 {
     1
   } else if memo.contains_key(&num) {
