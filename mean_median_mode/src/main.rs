@@ -38,14 +38,8 @@ fn main() {
         }
       };
       for (key, val) in &map {
-        let mode_val = match map.get(&mode_key) {
-          Some(val) => val,
-          None => {
-            println!("Could not find key");
-            continue;
-          }
-        };
-        if val > mode_val {
+        let mode_val = map[&mode_key];
+        if val > &mode_val {
           mode_key = *key;
         }
       }
