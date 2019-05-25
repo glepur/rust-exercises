@@ -18,43 +18,43 @@ fn main() {
       let command = match words.next() {
         Some(val) => val,
         None => {
-          println!("Input is not proper command");
+          println!("Please enter a valid command");
           continue;
         }
       };
       if command == "add" || command == "Add" {
-        let employee = match words.next() {
-          Some(val) => val,
-          None => {
-            println!("You must provide employee name after add command");
-            continue;
-          }
-        };
-        let to = words
-          .next()
-          .unwrap_or("You must specify where to add employee");
-        if to != "to" {
-          println!("{}", to);
-          continue;
-        }
-        let department = match words.next() {
-          Some(val) => val,
-          None => {
-            println!("You must specify department");
-            continue;
-          }
-        };
-        match departments.entry(String::from(department)) {
-          Entry::Vacant(e) => {
-            e.insert(vec![String::from(employee)]);
-          }
-          Entry::Occupied(mut e) => {
-            e.get_mut().push(String::from(employee));
-          }
-        }
-        println!("Added {} to {}", employee, department);
+        add_employee(&mut departments, words.collect::<Vec<&str>>());
+      } else {
+        println!("Command not recognized")
       }
     };
   }
   println!("{:?}", departments)
+}
+
+fn add_employee(departments: &mut HashMap<String, Vec<String>>, words: Vec<&str>) {
+  if words.len() != 3 {
+    println!("Wrong number of arguments supplied");
+    return;
+  }
+  if words[1] != "to" {
+    println!("You must specify where to add employee");
+    return;
+  }
+  let employee = String::from(words[0]);
+  let department = String::from(words[2]);
+  match departments.entry(department) {
+    Entry::Vacant(e) => {
+      e.insert(vec![employee]);
+    }
+    Entry::Occupied(mut e) => {
+      let vec = e.get_mut();
+      if vec.contains(&employee) {
+        println!("Employee {} already exists in {}", words[0], words[2]);
+        return;
+      }
+      e.get_mut().push(employee);
+    }
+  }
+  println!("Added {} to {}", words[0], words[2]);
 }
