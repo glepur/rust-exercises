@@ -27,7 +27,7 @@ fn main() {
       if command == "add" || command == "Add" {
         add_employee(&mut departments, words_vec);
       } else if command == "list" || command == "List" {
-        list(&departments, words_vec);
+        list(&mut departments, words_vec);
       } else {
         println!("Command not recognized")
       }
@@ -64,7 +64,7 @@ fn add_employee(departments: &mut HashMap<String, Vec<String>>, words: Vec<&str>
   println!("Added {} to {}", words[0], words[2]);
 }
 
-fn list(departments: &HashMap<String, Vec<String>>, words: Vec<&str>) {
+fn list(departments: &mut HashMap<String, Vec<String>>, words: Vec<&str>) {
   let wc = words.len();
   if wc != 1 && wc != 3 {
     println!("Invalid number of arguments supplied");
@@ -82,10 +82,24 @@ fn list(departments: &HashMap<String, Vec<String>>, words: Vec<&str>) {
       all_employees.sort();
       println!(
         "Here is the list of every single employee:\n{}",
-        list_employees(all_employees)
+        list_employees(&all_employees)
       );
+    } else if words[1] != "from" {
+      println!("You must specify from where to list employees");
     } else {
-      // TODO: list employees per department
+      match departments.get(words[2]) {
+        Some(vec) => {
+          println!(
+            "Here is the list of employees in {}:\n{}",
+            words[2],
+            list_employees(vec)
+          );
+        }
+        None => {
+          println!("Department does not exist");
+          return;
+        }
+      };
     }
   } else {
     println!("Could not parse command");
@@ -98,6 +112,6 @@ fn list_departments(departments: &HashMap<String, Vec<String>>) -> String {
   return format!("{}", vec.join("\n"));
 }
 
-fn list_employees(employees: Vec<String>) -> String {
+fn list_employees(employees: &Vec<String>) -> String {
   return format!("{}", employees.join("\n"));
 }
