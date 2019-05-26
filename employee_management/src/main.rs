@@ -58,6 +58,7 @@ fn add_employee(departments: &mut HashMap<String, Vec<String>>, words: Vec<&str>
         return;
       }
       vec.push(employee);
+      vec.sort();
     }
   }
   println!("Added {} to {}", words[0], words[2]);
@@ -78,6 +79,7 @@ fn list(departments: &HashMap<String, Vec<String>>, words: Vec<&str>) {
       for department in departments {
         all_employees.extend(department.1.iter().cloned());
       }
+      all_employees.sort();
       println!(
         "Here is the list of every single employee:\n{}",
         list_employees(all_employees)
@@ -91,14 +93,9 @@ fn list(departments: &HashMap<String, Vec<String>>, words: Vec<&str>) {
 }
 
 fn list_departments(departments: &HashMap<String, Vec<String>>) -> String {
-  return format!(
-    "{}",
-    departments
-      .keys()
-      .map(|s| &**s)
-      .collect::<Vec<_>>()
-      .join("\n")
-  );
+  let mut vec = departments.keys().map(|s| &**s).collect::<Vec<_>>();
+  vec.sort();
+  return format!("{}", vec.join("\n"));
 }
 
 fn list_employees(employees: Vec<String>) -> String {
