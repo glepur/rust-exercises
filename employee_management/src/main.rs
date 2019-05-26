@@ -22,8 +22,12 @@ fn main() {
           continue;
         }
       };
+      let words_vec = words.collect::<Vec<&str>>();
+
       if command == "add" || command == "Add" {
-        add_employee(&mut departments, words.collect::<Vec<&str>>());
+        add_employee(&mut departments, words_vec);
+      } else if command == "list" || command == "List" {
+        list(&departments, words_vec);
       } else {
         println!("Command not recognized")
       }
@@ -57,4 +61,24 @@ fn add_employee(departments: &mut HashMap<String, Vec<String>>, words: Vec<&str>
     }
   }
   println!("Added {} to {}", words[0], words[2]);
+}
+
+fn list(departments: &HashMap<String, Vec<String>>, words: Vec<&str>) {
+  let wc = words.len();
+  if wc == 1 && words[0] == "departments" {
+    list_departments(departments);
+    return;
+  }
+  println!("Could not parse command");
+}
+
+fn list_departments(departments: &HashMap<String, Vec<String>>) {
+  println!(
+    "Here is the list of all deparments: \n{}",
+    departments
+      .keys()
+      .map(|s| &**s)
+      .collect::<Vec<_>>()
+      .join("\n")
+  );
 }
